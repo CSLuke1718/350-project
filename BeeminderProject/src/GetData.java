@@ -8,6 +8,6 @@
  *
  * @author CSLuk
  */
-public class NewClass {
+public class GetData {
     
 }
