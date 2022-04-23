@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="BeeminderProject.jnlp">
+  <information>
+    <title>BeeminderProject</title>
+    <vendor>CSLuk</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="BeeminderProject.jar" size="5201" download="eager" />
+    <jar href="lib\okhttp-4.9.3-sources.jar" size="363886" download="eager" />
+    <jar href="lib\okhttp-4.9.3.jar" size="792081" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="BeeminderProject" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="Main"  name="BeeminderProject" />
+  <update check="always"/>
+</jnlp>
