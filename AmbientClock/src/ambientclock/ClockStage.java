@@ -5,6 +5,8 @@
  */
 package ambientclock;
 
+import java.text.ParseException;
+import java.util.Date;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,6 +30,7 @@ public class ClockStage {
     private Label secTime;
     private Label amtDue;
     private Stage s;
+    private Scene scene;
     
     public ClockStage(GoalData goal) {
         VBox Layer1VB;      
@@ -37,13 +40,12 @@ public class ClockStage {
         VBox Layer3Mins;    
         VBox Layer3Secs;
         
+        int[] time = TimeConverter.Convert(goal);
         
-        dayTime = new Label();
-        hourTime = new Label();
-        minTime = new Label();
-        secTime = new Label();
-        
-        
+        dayTime = new Label(Integer.toString(time[0]));
+        hourTime = new Label(Integer.toString(time[1]));
+        minTime = new Label(Integer.toString(time[2]));
+        secTime = new Label(Integer.toString(time[3]));
         
         Label day = new Label("Days:");
         Layer3Days = new VBox(day,dayTime);
@@ -73,7 +75,7 @@ public class ClockStage {
         
 
         //Scene scene = new Scene(vbox, 400, 400);
-        Scene scene = new Scene(Layer1VB, 300, 250);
+        scene = new Scene(Layer1VB, 300, 250);
         s = new Stage();
         
         s.setTitle(goal.getSlug());
@@ -82,8 +84,12 @@ public class ClockStage {
 
     }
 
-    public Stage getScene() {
+    public Stage getStage() {
         return s;
+    }
+    
+    public Scene getScene() {
+        return scene;
     }
 
     public Label getDayTime() {

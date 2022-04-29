@@ -6,10 +6,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -101,8 +108,7 @@ public class AmbientClock extends Application {
         GridPane.setConstraints(loginButton, 0, 5);
         loginButton.setOnAction( e -> {
             confirmLogIn(primaryStage, nameInput.getText(), tokenInput.getText());
-        }
-        );
+        });
         
         grid1.getChildren().addAll(logInText, nameLabel, nameInput, tokenLabel, tokenInput, loginButton);
         Scene scene = new Scene(grid1, 350, 300);
@@ -119,7 +125,6 @@ public class AmbientClock extends Application {
         try {
             ArrayList goalInfo = GetData.UserInfo(uname, token);
             Updater(primaryStage, goalInfo);
-            
         } catch (IOException ex) {
             Logger.getLogger(AmbientClock.class.getName()).log(Level.SEVERE, null, ex);
             
@@ -140,35 +145,73 @@ public class AmbientClock extends Application {
      * @param openGoals
      */
     public void Updater(Stage primaryStage, ArrayList<GoalData> openGoals) {
-System.out.println("got to timer view");
-  
         ClockStage[] window = new ClockStage[openGoals.size()];
         for(int i = 0; i < openGoals.size(); i++) {
             window[i] = new ClockStage(openGoals.get(i));
         }
-
         
         
-        //from here, do the countdown and get new data every five minutes
+        Timer timer = new Timer(); //e.printStackTrace();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("I would be called every 1 seconds");
+                    setLabels(window, openGoals);
+                }
+            }, 0, 1000);
         
         
-/* we don't need primary stage anymore
         
-        //button to return back to Log In screen
-        primaryStage.setOnCloseRequest(e -> {
-        });
-
-        primaryStage.setTitle("Timer Countdown");
-        primaryStage.setResizable(false);
-        primaryStage.show();
         
-        */
+            
+            
+            
+            
+            /*
+            long updateTime = 1;
+            Duration waitTime;
+            waitTime = Duration.ofSeconds(updateTime);
+            Timeline timeline;
+            timeline = new Timeline(new KeyFrame(Duration.ofSeconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            //final Calendar cal = Calendar.getInstance();
+            //clock.setText(format.format(cal.getTime());
+            }}));
+            timeline.setCycleCount(1);//do it x times
+            //timeline.setCycleCount(Animation.INDEFINITE);//or indefinitely
+            
+            //play:
+            //timeline.play();
+            //pause:
+            //timeline.pause();
+            //stop:
+            //timeline.stop();
+            */
+            
+            
+            /*
+            
+            System.out.println("got to try");
+            setLabels(window, openGoals);
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println("executed try");
+            */
+        
+        
     }
     
+    public void setLabels(ClockStage[] window, ArrayList<GoalData> goals) {
+            for(int i=0; i < goals.size(); i++) {
+                int[] time = TimeConverter.Convert(goals.get(i));
+                window[i].getDayTime().setText(Integer.toString(time[0]));
+                window[i].getHourTime().setText(Integer.toString(time[1]));
+                window[i].getMinTime().setText(Integer.toString(time[2]));
+                window[i].getSecTime().setText(Integer.toString(time[3]));
+                //window[i].getStage().setScene(window[i].getScene());
+            }
+    }
     
-    
-    
-
     /**
      * @param args the command line arguments
      */

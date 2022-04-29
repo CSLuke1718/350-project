@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,7 +82,7 @@ public class GetData {
                     list.get(goalNum).setSlug(arr[i + 2]);
                 }
                 if(arr[i].contains("losedate")) {
-                    long l = Long.parseLong(arr[i + 1].substring(1, arr[i + 1].length() - 2));
+                    long l = Long.parseLong(arr[i + 1].substring(1, arr[i + 1].length() - 1));
                     list.get(goalNum).setDueDate(l);
                 }
                     
@@ -98,8 +99,6 @@ public class GetData {
         }
 */
         return list;
-    }
-    
-            
+    }            
             
 }
